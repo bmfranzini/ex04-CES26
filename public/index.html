@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node Express App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Exemplo de formulário para upload de arquivos -->
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <button type="submit">Enviar arquivo</button>
+        </form>
+
+        <!-- Exemplo de formulário com dados enviados via GET -->
+        <form action="/formdata">
+            <input type="text" name="name" placeholder="Digite seu nome">
+            <button type="submit">Enviar dados</button>
+        </form>
+
+        <!-- AJAX com JSON -->
+        <button onclick="loadData()">Carregar Dados</button>
+        <p id="dataOutput">Aqui será mostrado os dados carregados.</p>
+
+        <button id="fetchDataBtn">Buscar Dados</button>
+        <p id="dataDisplay">Os dados aparecerão aqui.</p>
+        
+            
+
+    </div>
+    
+
+    <script>
+        function loadData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('dataOutput').textContent = data.message;
+                });
+        }
+    </script>
+    <script>
+        document.getElementById('fetchDataBtn').addEventListener('click', function() {
+            fetch('/data')
+                .then(response => {
+                    // Verifica se a resposta é bem-sucedida. Caso contrário, lança um erro.
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.users && Array.isArray(data.users)) {
+                        let userNames = data.users.map(user => user.name).join(', ');
+                        document.getElementById('dataDisplay').innerText = userNames;
+                    } else {
+                        document.getElementById('dataDisplay').innerText = 'No users found.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar os dados:', error);
+                    document.getElementById('dataDisplay').innerText = 'Error fetching data.';
+                });
+        });
+        </script>
+        
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "name": "Arquivo1"
+      },
+      {
+        "id": 2,
+        "name": "Arquivo2"
+      },
+      {
+        "id": 3,
+        "name": "..."
+      },
+      {
+        "id": 4,
+        "name": "ArquivoN"
+      }
+    ]
+  }
+  
